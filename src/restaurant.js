@@ -92,7 +92,39 @@
 // - fará a soma do preço desses itens;
 // - retornará o valor somado acrescido de 10%.
 // DICA: para isso, você precisará percorrer tanto o objeto da chave `food` quanto o objeto da chave `drink`.
+const createMenu = (object) => ({ fetchMenu: () => object });
+let menu = createMenu({ food: { coxinha: 3.9, sopa: 9.9 }, drink: { agua: 3.9, cerveja: 6.9 } });
 
-const createMenu = () => {};
+// let addOrder = (string) => this.consumption.push(string);
+function addOrder(string) {
+  return this.consumption.push(string);
+} 
 
-module.exports = createMenu;
+function addPay() {
+  let menuItems = Object.values(this.fetchMenu());
+  let consumedItems = this.consumption;
+  let price = 0;
+  consumedItems.forEach((key) => {
+    menuItems.forEach((food) => {
+      let hasProperty = Object.prototype.hasOwnProperty.call(food, key);
+      if (hasProperty === true) {
+        price += food[key];
+      }
+    });
+  });
+  return price;
+}
+
+menu.consumption = [];
+menu.order = addOrder;
+menu.pay = addPay;
+
+menu.order('coxinha'); // 3.9
+menu.order('agua'); // 3.9
+menu.order('coxinha'); // 3.9
+
+console.log(menu.pay()); // 11.7
+
+// console.log(menu);
+
+module.exports = { createMenu, addOrder, addPay };
