@@ -23,6 +23,7 @@ const myCounter = () => {
       myArray.push(counter2);
     }
   }
+  
   return myArray;
 };
 // console.log(myCounter());
